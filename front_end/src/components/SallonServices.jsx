@@ -1,16 +1,22 @@
 import * as React from "react";
+import AppBar from "@mui/material/AppBar";
 import Button from "@mui/material/Button";
+import CameraIcon from "@mui/icons-material/PhotoCamera";
+import FormControlLabel from "@mui/material/FormControlLabel";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import CssBaseline from "@mui/material/CssBaseline";
 import Grid from "@mui/material/Grid";
+import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
 import axios from "axios";
+import TextField from "@mui/material/TextField";
 import { useState, useEffect } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
@@ -38,6 +44,27 @@ const defaultTheme = createTheme({
 
 export default function SallonServices() {
   const [services, setServices] = useState();
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const formData = {
+      title: data.get("title"),
+      author: data.get("author"),
+      year: data.get("year"),
+      category: data.get("category"),
+    };
+
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/users/signup",
+        formData
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
     axios
@@ -84,6 +111,63 @@ export default function SallonServices() {
               Discover the Top Beauty Procedures That Are Transforming Lives!
             </Typography>
           </Container>
+          <Box
+            component="form"
+            noValidate
+            onSubmit={handleSubmit}
+            sx={{ mt: 3 }}
+          >
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  name="title"
+                  required
+                  fullWidth
+                  id="title"
+                  label="title"
+                  autoFocus
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  fullWidth
+                  id="author"
+                  label="author"
+                  name="author"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="year"
+                  label="year"
+                  name="year"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="category"
+                  label="category"
+                  type="category"
+                  id="category"
+                />
+              </Grid>
+            </Grid>
+            <Stack
+              sx={{ pt: 4 }}
+              direction="row"
+              spacing={2}
+              justifyContent="center"
+            >
+              <Button variant="contained" type="submit">
+                Add ur Service
+              </Button>
+            </Stack>
+          </Box>
         </Box>
         <Container sx={{ py: 8 }} maxWidth="md">
           {/* End hero unit */}

@@ -54,16 +54,7 @@ export default function RegisterForm() {
     try {
       const response = await axios.post(
         "http://localhost:3000/api/users/signup",
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
-            "Access-Control-Allow-Headers":
-              "Origin, X-Requested-With, Content-Type, Accept",
-          },
-        }
+        formData
       );
       console.log(response.data);
     } catch (error) {
